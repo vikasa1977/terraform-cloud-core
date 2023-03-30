@@ -1,25 +1,29 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'environment',defaultValue: 'terraform',description: 'workspace environment file to us')
-        booleanParam(name: 'autoApprove',defaultValue: 'false',description: 'automatically run apply after generating plan')
-        booleanParam(name: 'destroy',defaultValue: 'false',description: 'Destroy Terraform build')
-    }
     environment {
-        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
-    stages {
-        stage('checkout') {
-            steps {
-                script {
-                    dir ("terraform")
-                    {
-                    git "https://github.com/gopal1409/terraform-cloud-core.git"    
-                    }
-                    
-                }
-            }
-        }
-    }
+   stages {
+       stage('checkout') {
+           steps {
+               git 'https://github.com/gopal1409/terraformmodule-jenins.git'
+           }
+       }
+       stage('init') {
+           steps {
+               sh 'terraform init -input=false'
+           }
+       }
+       stage('validate') {
+           steps {
+               sh 'terraform validate'
+           }
+       }
+       stage('plan') {
+           steps {
+               sh 'terraform plan -input=false -out tfplan'
+           }
+       }
+ }
 }
