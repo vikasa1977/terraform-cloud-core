@@ -13,7 +13,11 @@ pipeline {
         stage('checkout') {
             steps {
                 script {
-                    echo "testing"
+                    dir ("terraform")
+                    {
+                    git "https://github.com/gopal1409/terraform-cloud-core.git"    
+                    }
+                    
                 }
             }
         }
