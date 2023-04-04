@@ -7,9 +7,9 @@ terraform {
     
   }
   backend "remote" {
-        organization = "hecta"
+        organization = "vikasawate"
         workspaces {
-            name = "cli-driven"
+            name = "vikasawate"
         }
     }
 }
